@@ -1,13 +1,24 @@
 using NUnit.Framework;
+using System;
 
 namespace Summator.Tests
 {
+    [TestFixture]
     public class SummatorTests
     {
+        private Summator summator;
+
+        [SetUp]
+        public void SetUp()
+        {
+            summator = new Summator();
+            System.Console.WriteLine("Test started: " + DateTime.Now);
+        }
+
        [Test]
        public void Test_Sum_TwoPossitiveNumbers()
         {
-            long actual = Summator.Sum(new int[] { 5, 7});
+            long actual = summator.Sum(new int[] { 5, 7});
 
             int expected = 12;
 
@@ -17,7 +28,7 @@ namespace Summator.Tests
         [Test]
         public void Test_Sum_OnePossitiveNumbers()
         {
-            long actual = Summator.Sum(new int[] { 5 });
+            long actual = summator.Sum(new int[] { 5 });
 
             Assert.That(actual == 5);
         }
@@ -25,7 +36,7 @@ namespace Summator.Tests
         [Test]
         public void Test_Sum_TwoNegativeNumbers()
         {
-            long actual = Summator.Sum(new int[] { -7, -9 });
+            long actual = summator.Sum(new int[] { -7, -9 });
 
             Assert.That(actual == -16);
         }
@@ -33,7 +44,7 @@ namespace Summator.Tests
         [Test]
         public void Test_Sum_EmptyArray()
         {
-            long actual = Summator.Sum(new int[] {  });
+            long actual = summator.Sum(new int[] {  });
 
             Assert.That(actual == 0);
         }
@@ -41,12 +52,13 @@ namespace Summator.Tests
         [Test]
         public void Test_Sum_BigValues()
         {
-            long actual = Summator.Sum(new int[] { 2000000000, 2000000000, 2000000000 });
+            long actual = summator.Sum(new int[] { 2000000000, 2000000000, 2000000000 });
 
             Assert.AreEqual(6000000000, actual);
         }
 
         [Test]
+        [Category("Critical")]
         public void Test_Average_TwoPossitiveNumbers()
         {
             int actual = Summator.Average(new int[] { 5, 7 });
@@ -56,6 +68,11 @@ namespace Summator.Tests
             Assert.That(expected == actual);
         }
 
-
+        [TearDown]
+        public void TearDown()
+        {
+            summator = null;
+            System.Console.WriteLine("Test ended: " + DateTime.Now);
+        }
     }
 }
